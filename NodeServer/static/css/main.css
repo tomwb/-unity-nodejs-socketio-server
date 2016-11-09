@@ -46,6 +46,7 @@ body {
     background-color: #f9f9f9;
     height: 400px;
     text-align: center;
+    position: relative;
 }
 
 .btnReady {
@@ -64,20 +65,23 @@ body {
 }
 
 .player {
-	display: inline-block;
     width: 30px;
     background-color: #CC0000;
     height: 30px;
-    top: 200px;
-    position: relative;
+    position: absolute;
+    top: 350px;
+    left: 350px;
     display: none;
+    border-radius: 30px;
 }
 
 .otherPlayer {
-	display: inline-block;
+	display: block;
     width: 30px;
     background-color: #CDCDCD;
     height: 30px;
-    top: 200px;
-    position: relative;
+    position: absolute;
+    top: 350px;
+    left: 350px;
+    border-radius: 30px;
 }

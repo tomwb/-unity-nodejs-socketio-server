@@ -11,28 +11,47 @@ app.get('/', function(req, res){
 });
 
 var rooms = [];
+var limit_room = 2;
 io.on('connection', function(socket){
 
-	console.log('usuario entrou');
+	// console.log('usuario entrou');
 
 	// defino qual a sala dele
 	socket.on('SET_ROOM', function( data ) {
-		socket.join( data['ROOM'] );
 
-		if ( ! rooms[data['ROOM']] ) {
-			rooms[data['ROOM']] = {
-				'name' : data['ROOM'],
+		// vejo em qual room coloco ele
+		var room =  'room' + 0;
+		if ( Object.keys(rooms).length >= 1 ) {
+			var i = 0;
+			var checkRoom = false;
+			for(var index in rooms) { 
+				if ( rooms[index].players.length < limit_room ) {
+					room =  'room' + i;
+					checkRoom = true;
+				}
+				i++;
+			}
+			if ( ! checkRoom ) {
+				room =  'room' + i;
+			}
+
+		}
+		socket.join( room );
+
+		if ( ! rooms[room] ) {
+			rooms[room] = {
+				'name' : room,
 				'players' : []
 			};
 		} 
-		rooms[data['ROOM']].players.push( {
+		rooms[room].players.push( {
 			'id': socket.id, 
 			'ready' : false,
 		} );
 
-		io.sockets.in( data['ROOM'] ).emit('WAIT_ROOM', {
-			'ROOM' : data['ROOM'],
-			'TOTAL_PLAYERS' : rooms[data['ROOM']].players.length
+		io.sockets.in( room ).emit('WAIT_ROOM', {
+			'ROOM' : room,
+			'TOTAL_PLAYERS' : rooms[room].players.length
 		});
 
 		socket.emit('SET_ID', {'ID':socket.id});

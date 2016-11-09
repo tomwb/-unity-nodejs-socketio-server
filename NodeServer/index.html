@@ -22,6 +22,7 @@
 		if ( ! gameOn ) {
 			// console.log(data);
 			$('.totalPlayers span').text(data.TOTAL_PLAYERS);
+			$('h1').text("TESTE SOCKET (" + data.ROOM + ")");
 
 			// caso tenha mais de 2 jogadores na sala eu ativo o botão ESTOU PRONTO
 			if ( parseInt(data.TOTAL_PLAYERS) >= 2 ) {
@@ -46,7 +47,7 @@
 	socket.on('START_GAME', function( data ){
 		gameOn = true;
 		$('a.btnReady').hide();
-		$('.player').css('display', 'inline-block');
+		$('.player').css('display', 'block');
 
 		// crio os outros players
 		for (var i = 0; i < data.length; i++) {
@@ -60,8 +61,11 @@
 	socket.on('GAME_MOVEMENT', function( data ){
 		if ( data.ID != socket_id ) {
 			console.log(data);
-			$( ".otherPlayer[data-id=" + data.ID + "]" ).offset({ left : data.X});
-			$( ".otherPlayer[data-id=" + data.ID + "]" ).offset({ top : data.Y});
+			$( ".otherPlayer[data-id=" + data.ID + "]" ).css('left', data.X);
+			$( ".otherPlayer[data-id=" + data.ID + "]" ).css('top', data.Y);
+		} else {
+			$('.player').css('left', data.X);
+			$('.player').css('top', data.Y);
 		}
 	});
 
@@ -80,30 +84,31 @@
 	$(document).keydown(function(e) {
 		if ( gameOn ) {
 			var moviment = 2;
-			var left = $('.player').offset().left;
-			var top = $('.player').offset().top;
+			var left = parseFloat($('.player').css('left'));
+			var top = parseFloat($('.player').css('top'));
 
 			// LEFT
 			if ( e.keyCode == 37 ) {
-				$('.player').offset({ left : left - 20});
+				left = left - 20;
 			}
 
 			// RIGHT
 			if ( e.keyCode == 39 ) {
-				$('.player').offset({ left : left + 20});
+				left = left + 20;
 			}
 
 			// UP
 			if ( e.keyCode == 38 ) {
-				$('.player').offset({ top : top - 20});
+				top = top - 20;
 			}
 
 			// DOWN
 			if ( e.keyCode == 40 ) {
-				$('.player').offset({ top : top + 20});
+				top = top + 20;
 			}
 
-			socket.emit('SET_MOVEMENT', {x: $('.player').offset().left, y: $('.player').offset().top});
+			socket.emit('SET_MOVEMENT', {x: left, y: top});
+			console.log( {x: left, y: top} );
 		}
 	});
 
