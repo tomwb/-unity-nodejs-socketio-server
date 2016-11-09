@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+<head>
+	<title>Teste socket.io</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script>
+	// inicializo o socket
+	var socket = io();
+	var socket_id = null;
+	var gameOn = false;
+
+	// quando conecto eu envio qual sala eu faço parte
+	socket.on('connect', function() {
+		var room = 'sala1';
+		socket.emit('SET_ROOM', {'ROOM': room});
+	});
+
+	// fico ouvindo o socket
+	socket.on('WAIT_ROOM', function( data ){
+		if ( ! gameOn ) {
+			// console.log(data);
+			$('.totalPlayers span').text(data.TOTAL_PLAYERS);
+
+			// caso tenha mais de 2 jogadores na sala eu ativo o botão ESTOU PRONTO
+			if ( parseInt(data.TOTAL_PLAYERS) >= 2 ) {
+				$('.totalPlayers i').hide();
+				$('a.btnReady').show();
+			} else {
+				$('.totalPlayers i').show();
+				$('a.btnReady').hide();
+			}
+		} else {
+			// caso algum jogador entrar ou sair
+			location.reload();
+		}
+	});
+
+	socket.on('SET_ID', function( data ){
+		console.log(data);
+		socket_id = data.ID;
+	});
+	
+
+	socket.on('START_GAME', function( data ){
+		gameOn = true;
+		$('a.btnReady').hide();
+		$('.player').css('display', 'inline-block');
+
+		// crio os outros players
+		for (var i = 0; i < data.length; i++) {
+			if ( data[i].id != socket_id ) {
+				$( ".gameArea" ).append( $( '<div class="otherPlayer" data-id="' + data[i].id + '"></div>' ) );
+			}
+		}
+
+	});
+
+	socket.on('GAME_MOVEMENT', function( data ){
+		if ( data.ID != socket_id ) {
+			console.log(data);
+			$( ".otherPlayer[data-id=" + data.ID + "]" ).offset({ left : data.X});
+			$( ".otherPlayer[data-id=" + data.ID + "]" ).offset({ top : data.Y});
+		}
+	});
+
+	$( document ).ready(function() {
+
+		$('.btnReady').click(function (event) {
+			event.preventDefault();
+			$(this).text("Esperando Oponente");
+			$(this).css( "background-color", '#ff842d');
+
+			socket.emit('PLAYER_READY');
+		});
+
+	});
+
+	$(document).keydown(function(e) {
+		if ( gameOn ) {
+			var moviment = 2;
+			var left = $('.player').offset().left;
+			var top = $('.player').offset().top;
+
+			// LEFT
+			if ( e.keyCode == 37 ) {
+				$('.player').offset({ left : left - 20});
+			}
+
+			// RIGHT
+			if ( e.keyCode == 39 ) {
+				$('.player').offset({ left : left + 20});
+			}
+
+			// UP
+			if ( e.keyCode == 38 ) {
+				$('.player').offset({ top : top - 20});
+			}
+
+			// DOWN
+			if ( e.keyCode == 40 ) {
+				$('.player').offset({ top : top + 20});
+			}
+
+			socket.emit('SET_MOVEMENT', {x: $('.player').offset().left, y: $('.player').offset().top});
+		}
+	});
+
+
+	</script>
+</head>
+<body>
+	<div class="content">
+		<h1> TESTE SOCKET </h1>
+		
+		<div class="totalPlayers"> Jogadores na sala: <span>0</span> <i>Aguardando mais jogadores</i></div>
+
+		<div class="gameArea">
+			<a href="" class="btnReady">Estou Pronto</a>
+			<div class="player"></div>
+		</div>
+	</div>
+</body>
+</html>

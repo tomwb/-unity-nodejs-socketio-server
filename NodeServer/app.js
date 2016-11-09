@@ -4,8 +4,13 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var rooms = [];
+app.use('/static', express.static(__dirname + '/static'));
 
+app.get('/', function(req, res){
+	res.sendFile( __dirname + '/index.html');
+});
+
+var rooms = [];
 io.on('connection', function(socket){
 
 	console.log('usuario entrou');
@@ -14,31 +19,80 @@ io.on('connection', function(socket){
 	socket.on('SET_ROOM', function( data ) {
 		socket.join( data['ROOM'] );
 
-		rooms[data['ROOM']] = [ socket.id ];
+		if ( ! rooms[data['ROOM']] ) {
+			rooms[data['ROOM']] = {
+				'name' : data['ROOM'],
+				'players' : []
+			};
+		} 
+		rooms[data['ROOM']].players.push( {
+			'id': socket.id, 
+			'ready' : false,
+		} );
 
-		io.sockets.in( data['ROOM'] ).emit('ENTER_ROOM', {'ROOM':data['ROOM']});
-		console.log(data['ROOM']);
+		io.sockets.in( data['ROOM'] ).emit('WAIT_ROOM', {
+			'ROOM' : data['ROOM'],
+			'TOTAL_PLAYERS' : rooms[data['ROOM']].players.length
+		});
+
+		socket.emit('SET_ID', {'ID':socket.id});
 	});
 
-	/*
-	socket.on('send_chat_mensseger', function( msg ){
-		// envia msg só para o usuario que solicitou
-		// socket.emit('receiver_chat_message', 'Nova mensagem enviada');
-
-		// mensagem para todos os usuarios
+	socket.on('PLAYER_READY', function(){		
 		room = getUserRoom(socket);	
 		if ( room ) {
-			io.sockets.in(room).emit('receiver_chat_message', msg);
+
+			start_game = true;
+			for (var i = 0; i < rooms[room].players.length; i++) {
+
+				// mudo o usuario para ready
+				if ( rooms[room].players[i].id != socket.id ) {
+					rooms[room].players[i].ready = true;
+				}
+
+				if ( ! rooms[room].players[i].ready ) {
+					start_game = false;
+				}
+			}
+
+			if ( start_game ) {
+				console.log("COMECOU");
+				io.sockets.in(room).emit('START_GAME', rooms[room].players);
+			}
+
+		}
+	});
+
+	socket.on('SET_MOVEMENT', function( data ){		
+		room = getUserRoom(socket);	
+		if ( room ) {
+			console.log(data);
+			io.sockets.in(room).emit('GAME_MOVEMENT', {ID: socket.id, X: data.x, Y: data.y});
 		}
 	});
 
 	socket.on('disconnecting', function( reason ){
 		room = getUserRoom(socket);	
 		if ( room ) {
-			io.sockets.in(room).emit('receiver_chat_message', 'Usuário saiu da sala.');
+
+			// removo um elemento do array rooms
+			var tmpPlayer = [];
+
+			for (var i = 0; i < rooms[room].players.length; i++) {
+				if ( rooms[room].players[i].id != socket.id ) {
+					tmpPlayer.push( rooms[room].players[i] );
+				}
+			};
+			rooms[room].players = tmpPlayer;
+
+			io.sockets.in( room ).emit('WAIT_ROOM', {
+				'ROOM' : room,
+				'TOTAL_PLAYERS' : tmpPlayer.length
+			});
+
+			//io.sockets.in(room).emit('receiver_chat_message', 'Usuário saiu da sala.');
 		}
 	});
-	*/
 });
 
 function getUserRoom (socket) {
