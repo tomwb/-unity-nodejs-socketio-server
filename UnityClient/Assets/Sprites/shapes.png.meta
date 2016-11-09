@@ -1,0 +1,231 @@
+fileFormatVersion: 2
+guid: 5d4d05dfd610744afa0e643e0170907b
+timeCreated: 1441985087
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: magenta_quadrado
+    21300002: magenta_retangulo
+    21300004: magenta_triangulo
+    21300006: magenta_circulo
+    21300008: azul_quadrado
+    21300010: azul_retangulo
+    21300012: azul_triangulo
+    21300014: azul_circulo
+    21300016: preto_quadrado
+    21300018: preto_retagulo
+    21300020: preto_triangulo
+    21300022: preto_circulo
+    21300024: branco_quadrado
+    21300026: branco_retangulo
+    21300028: branco_triangulo
+    21300030: branco_circulo
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: magenta_quadrado
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 565
+        width: 152
+        height: 153
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: magenta_retangulo
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 564
+        width: 258
+        height: 153
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: magenta_triangulo
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 565
+        width: 176
+        height: 153
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: magenta_circulo
+      rect:
+        serializedVersion: 2
+        x: 670
+        y: 566
+        width: 152
+        height: 151
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: azul_quadrado
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 382
+        width: 152
+        height: 152
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: azul_retangulo
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 382
+        width: 258
+        height: 152
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: azul_triangulo
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 382
+        width: 176
+        height: 152
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: azul_circulo
+      rect:
+        serializedVersion: 2
+        x: 670
+        y: 382
+        width: 152
+        height: 152
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: preto_quadrado
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 199
+        width: 152
+        height: 153
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: preto_retagulo
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 199
+        width: 258
+        height: 153
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: preto_triangulo
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 199
+        width: 176
+        height: 153
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: preto_circulo
+      rect:
+        serializedVersion: 2
+        x: 670
+        y: 200
+        width: 152
+        height: 151
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: branco_quadrado
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 17
+        width: 152
+        height: 153
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: branco_retangulo
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 17
+        width: 258
+        height: 153
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: branco_triangulo
+      rect:
+        serializedVersion: 2
+        x: 476
+        y: 17
+        width: 176
+        height: 153
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: branco_circulo
+      rect:
+        serializedVersion: 2
+        x: 670
+        y: 18
+        width: 152
+        height: 151
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
