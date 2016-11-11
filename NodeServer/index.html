@@ -13,8 +13,7 @@
 
 	// quando conecto eu envio qual sala eu faço parte
 	socket.on('connect', function() {
-		var room = 'sala1';
-		socket.emit('SET_ROOM', {'ROOM': room});
+		socket.emit('JOIN_ROOM');
 	});
 
 	// fico ouvindo o socket
@@ -50,22 +49,23 @@
 		$('.player').css('display', 'block');
 
 		// crio os outros players
-		for (var i = 0; i < data.length; i++) {
-			if ( data[i].id != socket_id ) {
-				$( ".gameArea" ).append( $( '<div class="otherPlayer" data-id="' + data[i].id + '"></div>' ) );
+		for (var i = 0; i < data.PLAYERS.length; i++) {
+			if ( data.PLAYERS[i].ID != socket_id ) {
+				$( ".gameArea" ).append( $( '<div class="otherPlayer" data-id="' + data.PLAYERS[i].ID + '"></div>' ) );
 			}
 		}
 
 	});
 
 	socket.on('GAME_MOVEMENT', function( data ){
+		console.log(data);
+		console.log("ANDANDO");
 		if ( data.ID != socket_id ) {
-			console.log(data);
-			$( ".otherPlayer[data-id=" + data.ID + "]" ).css('left', data.X);
-			$( ".otherPlayer[data-id=" + data.ID + "]" ).css('top', data.Y);
+			$( ".otherPlayer[data-id=" + data.ID + "]" ).css('left', data.POSITION.x);
+			$( ".otherPlayer[data-id=" + data.ID + "]" ).css('top', data.POSITION.y);
 		} else {
-			$('.player').css('left', data.X);
-			$('.player').css('top', data.Y);
+			$('.player').css('left', data.POSITION.x);
+			$('.player').css('top', data.POSITION.y);
 		}
 	});
 
@@ -107,8 +107,7 @@
 				top = top + 20;
 			}
 
-			socket.emit('SET_MOVEMENT', {x: left, y: top});
-			console.log( {x: left, y: top} );
+			socket.emit('SET_MOVEMENT', {x: left, y: top, z: 0});
 		}
 	});
 

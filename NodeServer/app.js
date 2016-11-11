@@ -14,25 +14,24 @@ var rooms = [];
 var limit_room = 2;
 io.on('connection', function(socket){
 
-	// console.log('usuario entrou');
+	console.log('usuario entrou');
 
 	// defino qual a sala dele
-	socket.on('SET_ROOM', function( data ) {
-
+	socket.on('JOIN_ROOM', function( ) {
 		// vejo em qual room coloco ele
-		var room =  'room' + 0;
+		var room =  'sala_' + 0;
 		if ( Object.keys(rooms).length >= 1 ) {
 			var i = 0;
 			var checkRoom = false;
 			for(var index in rooms) { 
 				if ( rooms[index].players.length < limit_room ) {
-					room =  'room' + i;
+					room =  'sala_' + i;
 					checkRoom = true;
 				}
 				i++;
 			}
 			if ( ! checkRoom ) {
-				room =  'room' + i;
+				room =  'sala_' + i;
 			}
 
 		}
@@ -51,19 +50,23 @@ io.on('connection', function(socket){
 
 		io.sockets.in( room ).emit('WAIT_ROOM', {
 			'ROOM' : room,
-			'TOTAL_PLAYERS' : rooms[room].players.length
+			'TOTAL_PLAYERS' : " " + rooms[room].players.length
 		});
 
 		socket.emit('SET_ID', {'ID':socket.id});
+		console.log(rooms);
 	});
 
 	socket.on('PLAYER_READY', function(){		
+		console.log("PLAYER_READY");
 		room = getUserRoom(socket);	
 		if ( room ) {
 
 			start_game = true;
+			var players_ids = [];
 			for (var i = 0; i < rooms[room].players.length; i++) {
-
+				players_ids[i] = { ID: rooms[room].players[i].id, POSITION : i };
+				console.log(rooms[room].players[i].id);
 				// mudo o usuario para ready
 				if ( rooms[room].players[i].id != socket.id ) {
 					rooms[room].players[i].ready = true;
@@ -73,10 +76,9 @@ io.on('connection', function(socket){
 					start_game = false;
 				}
 			}
-
 			if ( start_game ) {
 				console.log("COMECOU");
-				io.sockets.in(room).emit('START_GAME', rooms[room].players);
+				io.sockets.in(room).emit('START_GAME', { PLAYERS : players_ids });
 			}
 
 		}
@@ -86,7 +88,7 @@ io.on('connection', function(socket){
 		room = getUserRoom(socket);	
 		if ( room ) {
 			console.log(data);
-			io.sockets.in(room).emit('GAME_MOVEMENT', {ID: socket.id, X: data.x, Y: data.y});
+			io.sockets.in(room).emit('GAME_MOVEMENT', {ID: socket.id, POSITION : {x: data.x, y: data.y}});
 		}
 	});
 
@@ -111,6 +113,8 @@ io.on('connection', function(socket){
 
 			//io.sockets.in(room).emit('receiver_chat_message', 'Usuário saiu da sala.');
 		}
+
+		console.log("Jogador Saiu");
 	});
 });
 
