@@ -17,6 +17,7 @@ public class SocketIoController : MonoBehaviour {
 		socketIO.On ("SET_ID", SetId);
 		socketIO.On("START_GAME", StartGameRoom);
 		socketIO.On("GAME_MOVEMENT", GameMovement);
+		socketIO.On("DISCONNECT", DisconnectGame);
 	}
 	
 	// Update is called once per frame
@@ -85,10 +86,7 @@ public class SocketIoController : MonoBehaviour {
 		}
 	}
 
-	Vector3 JsonToVecter3(string target ){
-		Vector3 newVector;
-		string[] newString = Regex.Split(target,",");
-		newVector = new Vector3( float.Parse(newString[0]), float.Parse(newString[1]), float.Parse(newString[2]));
-		return newVector;
+	public void DisconnectGame ( SocketIOEvent obj ) {
+		Application.LoadLevel(Application.loadedLevel);
 	}
 }

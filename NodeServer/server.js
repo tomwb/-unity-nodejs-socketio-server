@@ -108,12 +108,12 @@ io.on('connection', function(socket){
 			};
 			rooms[room].players = tmpPlayer;
 
-			io.sockets.in( room ).emit('WAIT_ROOM', {
-				'ROOM' : room,
-				'TOTAL_PLAYERS' : tmpPlayer.length
-			});
+			// io.sockets.in( room ).emit('WAIT_ROOM', {
+			// 	'ROOM' : room,
+			// 	'TOTAL_PLAYERS' : tmpPlayer.length
+			// });
 
-			//io.sockets.in(room).emit('receiver_chat_message', 'Usuário saiu da sala.');
+			io.sockets.in(room).emit('DISCONNECT');
 		}
 
 		console.log("Jogador Saiu");
