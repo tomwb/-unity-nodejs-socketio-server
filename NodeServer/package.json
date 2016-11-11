@@ -1,0 +1,25 @@
+{
+  "name": "unity-socket-io-project",
+  "version": "1.0.0",
+  "description": "teste",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.14.0",
+    "socket.io": "^1.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "tom",
+  "license": "ISC",
+  "engines": {
+    "node": "^0.10.x",
+    "npm": "^2.15.8"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.heroku.com/unity-socket-io-project.git"
+  }
+}
